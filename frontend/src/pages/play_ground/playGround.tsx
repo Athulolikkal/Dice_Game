@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import valueOneDice from "../../assets/images/dice-six-faces-one.png";
 import valueTwoDice from "../../assets/images/dice-six-faces-two (1).png";
 import valueThreeDice from "../../assets/images/dice-six-faces-three.png";
@@ -7,12 +8,14 @@ import valueSixDice from "../../assets/images/dice-six-faces-six.png";
 import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { CustomDiceButton, DiceContainer, SingleDiceBox } from "./style";
-import { findRandomIndex } from "../../helpers/findRandomIndex";
 import TotalCoin from "../../components/totalCoin";
+import { checkResult } from "../../axios/Axios";
+import { useSelector } from "react-redux";
 
 const PlayGround = () => {
   const [diceOne, setDiceOne] = useState<number>(0);
   const [diceTwo, setDiceTwo] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false)
   const diceImages = [
     valueOneDice,
     valueTwoDice,
@@ -21,14 +24,27 @@ const PlayGround = () => {
     valueFiveDice,
     valueSixDice,
   ];
+  const totalPoints = useSelector((state: any) => state.totalPoints.points)
+  const selectedBetPoint = useSelector((state: any) => state.gameInfo.betAmount)
+  const selectedBetType = useSelector((state: any) => state.gameInfo.betType)
 
- 
+  const findIndex = async () => {
+    try {
+      const response = await checkResult(totalPoints, selectedBetPoint, selectedBetType, setDiceOne, setDiceTwo, setLoading)
+      console.log(response);
+    
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
   return (
     <Container>
       <Box sx={{ marginTop: '30px', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between' }}>
-          <Typography variant='h4'>7Up 7Down</Typography>
-          <TotalCoin />
-        </Box>
+        <Typography variant='h4'>7Up 7Down</Typography>
+        <TotalCoin />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -46,7 +62,7 @@ const PlayGround = () => {
             <img src={diceImages[diceTwo]} alt="" width="70%" />
           </SingleDiceBox>
         </DiceContainer>
-        <CustomDiceButton onClick={()=>findRandomIndex(setDiceOne,setDiceTwo)}>Let's Start</CustomDiceButton>
+        <CustomDiceButton onClick={findIndex}>Let's Start</CustomDiceButton>
       </Box>
     </Container>
   );

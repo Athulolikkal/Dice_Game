@@ -2,8 +2,12 @@ import { Container, Typography } from "@mui/material";
 import { CustomButton, DiceBox, StartBox } from "./style";
 import diceLogo from "../../assets/images/diceIcon.png";
 import { useNavigate } from "react-router-dom";
+import { getStart } from "../../redux/pointReducer";
+import {  useDispatch } from "react-redux";
+
 const StartPlay = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   return (
     <Container sx={{ height: "100vh", alignContent: "center" }}>
       <StartBox>
@@ -19,7 +23,10 @@ const StartPlay = () => {
           >
             Hey! let's play 7Up 7Down
           </Typography>
-          <CustomButton onClickCapture={() => navigate("/challenges")}>
+          <CustomButton onClickCapture={ () => {
+            dispatch(getStart())
+            navigate("/challenges")
+          }}>
             Get Started!
           </CustomButton>
         </DiceBox>

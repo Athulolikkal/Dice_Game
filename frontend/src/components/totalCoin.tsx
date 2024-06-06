@@ -1,7 +1,15 @@
 import { Box, Typography } from "@mui/material"
 import coinImg from '../assets/images/coin_icon.png'
+import { useSelector } from "react-redux"
+
+
 
 const TotalCoin = () => {
+
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const points = useSelector((state: any) => state.totalPoints.points)
+
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography
@@ -13,7 +21,7 @@ const TotalCoin = () => {
                     WebkitTextFillColor: 'transparent',
                     textShadow: '1px 1px  3px rgba(0, 0, 0, 0.3)'
                 }}
-            >5000
+            >{points}
             </Typography>
             <img src={coinImg} alt='' width='50px' />
         </Box>

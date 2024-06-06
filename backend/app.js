@@ -9,7 +9,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(urlencoded({ extended: true }));
 
-app.get("/getresult", resultController.checkReult);
+app.post("/getresult", resultController.checkReult);
 
 app.listen(3000, () => {
   console.log("port is running on 3000");

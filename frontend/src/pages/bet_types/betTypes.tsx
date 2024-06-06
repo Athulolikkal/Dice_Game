@@ -1,11 +1,14 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import TotalCoin from '../../components/totalCoin'
+import { useDispatch } from 'react-redux'
+import { changeBetType } from '../../redux/gameReducer'
 
 
 
 const BetTypes = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const allChallenges = [
         {
             image: "https://play-lh.googleusercontent.com/ycb45SOcSD3xxLGqpJUXzssyhAoRcy9HPUOWGp-5j5Yj484YPutyTl9sa0WhB9lLyiE",
@@ -28,13 +31,16 @@ const BetTypes = () => {
 
         <Container sx={{ height: { lg: '100vh', xl: '100vh' }, }}>
             <Box sx={{ marginTop: '30px', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between' }}>
-                <Typography variant='h4'>Set your challenge!</Typography>
+                <Typography variant='h4'>Pick your challenge!</Typography>
                 <TotalCoin />
 
             </Box>
             <Box sx={{ height: { lg: '80vh', xl: '80vh' }, display: 'flex', flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'row', xl: 'row' }, justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px' }}>
 
-                {allChallenges.map((item) => (<Card sx={{ maxWidth: 350, margin: '20px' }} onClick={() => navigate('/bet_items')}>
+                {allChallenges.map((item) => (<Card sx={{ maxWidth: 350, margin: '20px' }} key={item.des} onClick={() => {
+                    dispatch(changeBetType(item.title))
+                    navigate('/bet_items')
+                }}>
                     <CardActionArea>
                         <CardMedia
                             component="img"
