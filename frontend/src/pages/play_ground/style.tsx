@@ -35,7 +35,7 @@ export const CustomDiceButton = styled(Button)(({ theme }) => ({
   fontSize: "20px",
   cursor: "pointer",
   padding: "0.5rem 1.25rem",
-  borderRadius: "25px",
+  borderRadius: "15px",
   textTransform: "none",
   display: "block",
   border: "2px solid transparent",
@@ -49,7 +49,7 @@ export const CustomDiceButton = styled(Button)(({ theme }) => ({
   },
   [theme.breakpoints.down("md")]: {
     margin: theme.spacing(0, "auto", 3, "auto,"),
-    width: "100%",
+    width: "80%",
   },
   [theme.breakpoints.down("sm")]: {
     margin: theme.spacing(0, "auto", 3, "auto,"),

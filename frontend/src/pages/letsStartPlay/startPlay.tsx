@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { CustomButton, DiceBox, StartBox } from "./style";
 import diceLogo from "../../assets/images/diceIcon.png";
 import { useNavigate } from "react-router-dom";
@@ -12,14 +12,14 @@ const StartPlay = () => {
         </DiceBox>
         <DiceBox>
           <Typography
-            variant="h2"
+            variant="h3"
             fontWeight="bold"
             marginBottom="20px"
             sx={{ textAlign: "center" }}
           >
-            Hey! let's play Dice
+            Hey! let's play 7Up 7Down
           </Typography>
-          <CustomButton onClickCapture={() => navigate("/play_area")}>
+          <CustomButton onClickCapture={() => navigate("/challenges")}>
             Get Started!
           </CustomButton>
         </DiceBox>
