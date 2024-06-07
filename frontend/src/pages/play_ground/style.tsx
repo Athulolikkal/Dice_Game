@@ -1,4 +1,20 @@
-import { Box, Button, styled } from "@mui/material";
+import { Box, Button, styled,keyframes} from "@mui/material";
+
+
+const roll = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(90deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+export const RollingDice = styled("img", {
+  shouldForwardProp: (prop) => prop !== "loading",
+})<{ loading: boolean }>(({ loading }) => ({
+  width: "70%",
+  animation: loading ? `${roll} 1s infinite` : "none",
+}));
 
 export const DiceContainer = styled(Box)(({ theme }) => ({
   display: "flex",

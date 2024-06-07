@@ -10,12 +10,15 @@ import { Box, Container, Typography } from "@mui/material";
 import { CustomDiceButton, DiceContainer, SingleDiceBox } from "./style";
 import TotalCoin from "../../components/totalCoin";
 import { checkResult } from "../../axios/Axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changePoints } from "../../redux/pointReducer";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const PlayGround = () => {
   const [diceOne, setDiceOne] = useState<number>(0);
   const [diceTwo, setDiceTwo] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const diceImages = [
     valueOneDice,
     valueTwoDice,
@@ -24,25 +27,85 @@ const PlayGround = () => {
     valueFiveDice,
     valueSixDice,
   ];
-  const totalPoints = useSelector((state: any) => state.totalPoints.points)
-  const selectedBetPoint = useSelector((state: any) => state.gameInfo.betAmount)
-  const selectedBetType = useSelector((state: any) => state.gameInfo.betType)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let totalPoints = useSelector((state: any) => state.totalPoints.points);
+  const selectedBetPoint = useSelector(
+    (state: any) => state.gameInfo.betAmount
+  );
+  const selectedBetType = useSelector((state: any) => state.gameInfo.betType);
 
+  //for checking bet
   const findIndex = async () => {
     try {
-      const response = await checkResult(totalPoints, selectedBetPoint, selectedBetType, setDiceOne, setDiceTwo, setLoading)
+      const response: any = await checkResult(
+        totalPoints,
+        selectedBetPoint,
+        selectedBetType,
+        setDiceOne,
+        setDiceTwo,
+        setLoading
+      );
       console.log(response);
-    
+      //if no errors
+      if (response.status) {
+        totalPoints = response.totalPoint;
+        dispatch(changePoints(totalPoints));
+        if (response.isBet) {
+          await Swal.fire({
+            title: "Congratulations",
+            text: `You Won the ${selectedBetType} challenge, ${response.addedPoint} Points Added to your points `,
+            imageUrl:
+              "https://www.freeiconspng.com/uploads/congratulations-icon-33.jpg",
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: "Custom image",
+            showCancelButton: true,
+            confirmButtonText: "Play Again",
+            cancelButtonText: "Quit",
+          }).then((result) => {
+            if (result.dismiss) {
+              navigate("/challenges");
+            }
+          });
+        } else {
+          await Swal.fire({
+            title: "Bad Luck",
+            text: `You loss the ${selectedBetType} challenge, ${response.minPoint} Points dedected `,
+            imageUrl:
+              "https://static.vecteezy.com/system/resources/previews/018/885/244/non_2x/black-star-badge-you-lose-game-award-icon-for-2d-png.png",
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: "Custom image",
+            showCancelButton: true,
+            confirmButtonText: "Play Again",
+            cancelButtonText: "Quit The Challenge",
+          }).then((result) => {
+            if (result.dismiss) {
+              navigate("/challenges");
+            }
+          });
+        }
+      } else {
+        console.log("something went wrong");
+        await Swal.fire("Something went w");
+      }
     } catch (err) {
       console.log(err);
     }
-
-  }
+  };
 
   return (
     <Container>
-      <Box sx={{ marginTop: '30px', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between' }}>
-        <Typography variant='h4'>7Up 7Down</Typography>
+      <Box
+        sx={{
+          marginTop: "30px",
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h4">7Up 7Down</Typography>
         <TotalCoin />
       </Box>
       <Box
@@ -62,7 +125,9 @@ const PlayGround = () => {
             <img src={diceImages[diceTwo]} alt="" width="70%" />
           </SingleDiceBox>
         </DiceContainer>
-        <CustomDiceButton onClick={findIndex}>Let's Start</CustomDiceButton>
+        <CustomDiceButton onClick={!loading ? findIndex : () => ""}>
+          {loading ? "Waiting the results" : " Let's Start"}
+        </CustomDiceButton>
       </Box>
     </Container>
   );

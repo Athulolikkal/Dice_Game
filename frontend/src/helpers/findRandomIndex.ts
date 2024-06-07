@@ -8,7 +8,8 @@ export const findRandomIndex = async () => {
     const secondDiscNumber = getRandomNumber();
     
     return [firstDiscNumber, secondDiscNumber];
-  } catch (err) {
+  } catch (err) { 
     console.log(err);
+    return []
   }
 };

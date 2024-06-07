@@ -29,7 +29,7 @@ const resultController = {
                     }
 
                 } else {
-                    res.json({ error: true, status: false, totalpoint: false, message: 'not enough total points', bet: false })
+                    res.json({ error: true, status: false, notEnoughtotalpoint: true, message: 'not enough total points', bet: false })
                 }
             } else {
                 res.json({ error: true, status: false, message: 'something went wrong', bet: false })
