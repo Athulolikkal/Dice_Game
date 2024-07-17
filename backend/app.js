@@ -14,7 +14,7 @@ app.use(urlencoded({ extended: true }));
 app.use(
   session({
     secret: 'newSecretKey',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     store: store,
     cookie: {
