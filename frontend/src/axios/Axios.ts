@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { findRandomIndex } from "../helpers/findRandomIndex";
-// import { delay } from "../helpers/delay";
 
-const Base_Url = "http://localhost:3000";
+
+const Base_Url = "https://dice-game-zrvg.onrender.com";
 const instance = axios.create({
   baseURL: Base_Url,
 });

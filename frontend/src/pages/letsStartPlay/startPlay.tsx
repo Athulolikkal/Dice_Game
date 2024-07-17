@@ -3,32 +3,43 @@ import { CustomButton, DiceBox, StartBox } from "./style";
 import diceLogo from "../../assets/images/diceIcon.png";
 import { useNavigate } from "react-router-dom";
 import { getStart } from "../../redux/pointReducer";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { motion } from 'framer-motion';
 
+const MotionDiceBox = motion(DiceBox)
+const MotionTitleText = motion(Typography)
+const MotionCustomButton = motion(CustomButton)
 const StartPlay = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
   return (
     <Container sx={{ height: "100vh", alignContent: "center" }}>
       <StartBox>
-        <DiceBox>
+        <MotionDiceBox
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}>
           <img src={diceLogo} alt="Dice Logo" width="100%" />
-        </DiceBox>
+        </MotionDiceBox>
         <DiceBox>
-          <Typography
+          <MotionTitleText
             variant="h3"
             fontWeight="bold"
             marginBottom="20px"
             sx={{ textAlign: "center" }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
           >
             Hey! let's play 7Up 7Down
-          </Typography>
-          <CustomButton onClickCapture={ () => {
+          </MotionTitleText>
+          <MotionCustomButton onClickCapture={() => {
             dispatch(getStart())
             navigate("/challenges")
           }}>
             Get Started!
-          </CustomButton>
+          </MotionCustomButton>
         </DiceBox>
       </StartBox>
     </Container>

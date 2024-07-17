@@ -1,3 +1,22 @@
+const getSessionData = (sessionStore, sessionId) => {
+    return new Promise((resolve, reject) => {
+      if (sessionId) {
+        sessionStore.get(sessionId, (err, session) => {
+          if (err) {
+            console.log(err,'error is this');
+            return reject(err)
+          }
+          resolve(session)
+        })
+      } else {
+        console.log(err,'error is this');
+        reject({ error: true })
+      }
+    })
+  }
+
+
+
 const resultController = {
     checkReult: async (req, res) => {
         try {
@@ -40,6 +59,22 @@ const resultController = {
             console.log(err);
             res.json({ error: true, status: false }).status(400)
         }
+    },
+
+    getQuestion:async(req,res)=>{
+     try{
+        const sessionId = req.params.id
+        const sessionStore = req?.sessionStore
+        console.log(sessionStore,'new session store');
+        const session = await getSessionData(sessionStore, sessionId)
+        console.log(session,'new session is this');
+        const newSessionId = req.sessionID
+        req.session.aiQuestions = req.params.userId
+        console.log(newSessionId,'newSession Id');
+        return res.json({newSession:newSessionId})
+     }catch(err){
+        console.log(err,'error');
+     }
     }
 }
 

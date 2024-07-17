@@ -88,7 +88,7 @@ const PlayGround = () => {
         }
       } else {
         console.log("something went wrong");
-        await Swal.fire("Something went w");
+        await Swal.fire("Something went wrong");
       }
     } catch (err) {
       console.log(err);
@@ -126,7 +126,7 @@ const PlayGround = () => {
           </SingleDiceBox>
         </DiceContainer>
         <CustomDiceButton onClick={!loading ? findIndex : () => ""}>
-          {loading ? "Waiting the results" : " Let's Start"}
+          {loading ? "Game On Progress..." : " Let's Start"}
         </CustomDiceButton>
       </Box>
     </Container>
